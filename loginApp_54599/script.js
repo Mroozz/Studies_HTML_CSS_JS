@@ -1,10 +1,9 @@
 // script.js
 // Pełna logika frontend (logowanie / rejestracja / reset / panel warsztatowy)
-// Działa z HTML podanym przez użytkownika (ID muszą zgadzać się z HTML).
 
-// -------------------------------
+
 // 0. DOM shortcuts
-// -------------------------------
+
 const loginView = document.getElementById('loginView');
 const registerView = document.getElementById('registerView');
 const resetView = document.getElementById('resetView');
@@ -59,9 +58,9 @@ const f_model = document.getElementById('f_model');
 const f_vin = document.getElementById('f_vin');
 const f_engineCap = document.getElementById('f_engineCap');
 
-// -------------------------------
+
 // 1. Storage + seed data
-// -------------------------------
+
 const STORAGE_USERS = 'ws_users_v1';
 const STORAGE_VEH = 'ws_vehicles_v1';
 
@@ -93,9 +92,8 @@ function persist(){
 }
 persist();
 
-// -------------------------------
 // 2. Utility UI helpers
-// -------------------------------
+
 function showMsg(el, text, ok=false){
   if (!el) return;
   el.textContent = text || '';
@@ -108,9 +106,8 @@ function clearAllMsgs(){
 function escapeHtml(s){ if (s===null || s===undefined) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function autogrowTextarea(el){ if(!el) return; el.style.height='auto'; el.style.height = (el.scrollHeight)+'px'; el.addEventListener('input', ()=>{ el.style.height='auto'; el.style.height=(el.scrollHeight)+'px'; }); }
 
-// -------------------------------
 // 3. Navigation show/hide
-// -------------------------------
+
 function showLogin(){
   loginView.classList.remove('hidden');
   registerView.classList.add('hidden');
@@ -146,9 +143,9 @@ linkToReset.addEventListener('click', (e)=>{ e.preventDefault(); showReset(); })
 backToLogin1.addEventListener('click', (e)=>{ e.preventDefault(); showLogin(); });
 backToLogin2.addEventListener('click', (e)=>{ e.preventDefault(); showLogin(); });
 
-// -------------------------------
+
 // 4. Registration (with validation, no alert())
-// -------------------------------
+
 registerBtn.addEventListener('click', function(){
   showMsg(regMsg, '');
   const login = (regLogin.value||'').trim();
@@ -180,9 +177,9 @@ registerBtn.addEventListener('click', function(){
   maybeShowFirstCarModal();
 });
 
-// -------------------------------
+
 // 5. Reset password (simulation)
-// -------------------------------
+
 resetBtn.addEventListener('click', function(){
   showMsg(resetMsg, '');
   const mail = (resetEmail.value||'').trim().toLowerCase();
@@ -191,9 +188,9 @@ resetBtn.addEventListener('click', function(){
   showMsg(resetMsg, 'Na Twój e-mail wysłano link resetujący.', true);
 });
 
-// -------------------------------
+
 // 6. Login (accept login or email) - messages in loginMsg (no alerts)
-// -------------------------------
+
 loginSubmit.addEventListener('click', doLogin);
 function doLogin(){
   showMsg(loginMsg, '');
@@ -236,9 +233,9 @@ function doLogin(){
 loginPassword.addEventListener('keypress', function(e){ if (e.key === 'Enter') doLogin(); });
 loginInput.addEventListener('keypress', function(e){ if (e.key === 'Enter') doLogin(); });
 
-// -------------------------------
+
 // 7. Logout and delete account
-// -------------------------------
+
 btnLogout.addEventListener('click', function(){
   currentUser = null;
   // hide main and clear lists
@@ -260,9 +257,9 @@ btnDelete.addEventListener('click', function(){
   showLogin();
 });
 
-// -------------------------------
+
 // 8. First-car modal (Option A) behavior
-// -------------------------------
+
 function maybeShowFirstCarModal(){
   if (!currentUser || currentUser === 'admin@local') return;
   if (!users[currentUser]) return;
@@ -296,9 +293,9 @@ firstCarSave.addEventListener('click', function(){
   showMyCars();
 });
 
-// -------------------------------
+
 // 9. Admin add vehicle
-// -------------------------------
+
 adminAddBtn.addEventListener('click', function(){
   const target = assignToUser.value;
   const reg = (a_reg.value||'').trim();
@@ -313,9 +310,8 @@ adminAddBtn.addEventListener('click', function(){
   displayClientList();
 });
 
-// -------------------------------
 // 10. UI refresh / lists rendering
-// -------------------------------
+
 btnMyCars.addEventListener('click', showMyCars);
 btnClientDB.addEventListener('click', displayClientList);
 btnAddCar.addEventListener('click', ()=> { adminAddBox.classList.toggle('hidden'); });
@@ -366,9 +362,9 @@ function displayClientList(){
   }
 }
 
-// -------------------------------
+
 // 11. renderCars / save / delete functions
-// -------------------------------
+
 function renderCars(userEmail){
   vehicleList.innerHTML = '';
   let targets = {};
@@ -451,11 +447,11 @@ window.deleteCar = function(owner, index){
   else renderCars(currentUser);
 };
 
-// -------------------------------
 // 12. Misc functions / init
-// -------------------------------
+
 function showMyCars(){ showMain(); renderCars(currentUser); }
 function renderCarsForAdmin(){ showMain(); renderCars(null); }
 
 // initial display
 showLogin();
+
